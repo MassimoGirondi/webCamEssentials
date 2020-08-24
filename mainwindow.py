@@ -22,12 +22,17 @@ class dialogWindow(Gtk.Dialog):
         self.exp_check = Gtk.CheckButton(self, label= "Manual exposure")
         self.exp_check.connect("toggled", self.manual_exposure)
 
-        contentArea = Gtk.Dialog.get_content_area(self)
+        self.expand = Gtk.CheckButton(self, label= "Advanced")
+        self.expand.connect("toggled", self.toggle_advanced)
+        self.expand.set_active(True)
+
+        self.contentArea = Gtk.Dialog.get_content_area(self)
 
         self.box = Gtk.Box(spacing=6)
-        contentArea.add(self.box)
+        self.contentArea.add(self.box)
         self.box.pack_start(self.exp_check, False, True, 0)
-        self.box.pack_end(self.exp, True, True, 0)
+        self.box.pack_start(self.exp, True, True, 0)
+        self.box.pack_end(self.expand, False, True, 0)
 
 
         
@@ -52,15 +57,9 @@ class dialogWindow(Gtk.Dialog):
 
         self.advanced.attach_next_to(contrast_lbl, None, Gtk.PositionType.BOTTOM, 1, 1)
         self.advanced.attach_next_to(self.contrast, contrast_lbl, Gtk.PositionType.RIGHT, 1, 1)
+       
         
-        
-        contentArea.add(self.advanced)
-        # grid.attach_next_to(button4, button3, Gtk.PositionType.RIGHT, 2, 1)
-        # grid.attach(button5, 1, 2, 1, 1)
-        # grid.attach_next_to(button6, button5, Gtk.PositionType.RIGHT, 1, 1)
-
-        #contentArea.add(self.exp_check)
-        #contentArea.add(self.exp)
+        self.contentArea.add(self.advanced)
 
     def manual_exposure(self, btn):
         self.exp.set_sensitive(btn.get_active())
@@ -76,4 +75,15 @@ class dialogWindow(Gtk.Dialog):
 
     def set_contrast(self, scale):
         set_property(self.dev, "exposure_absolute", scale.get_value())
-
+    
+    def toggle_advanced(self, btn):
+        # TODO: RESIZE
+        if btn.get_active():
+            self.advanced.show()
+        else:
+            self.advanced.hide()
+            w,h = self.get_default_size()
+            w,_ = self.get_size()
+            #h-=self.advanced.height
+            h-=60
+            self.resize(w,h)
