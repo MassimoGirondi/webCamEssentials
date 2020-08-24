@@ -14,6 +14,9 @@ def get_name(dev):
 def set_property(dev, prop, value):
     subprocess.call(["v4l2-ctl", "-d", dev, "-c", prop+"="+str(value)])
 
+def get_property(dev, prop):
+    return subprocess.check_output(f"v4l2-ctl -d {dev} -C {prop} | sed -e 's/.*://'", shell=True).strip()
+
 def get_limits(dev, prop):
     # TODO: Handle errors!
 
