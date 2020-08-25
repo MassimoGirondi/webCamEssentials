@@ -9,7 +9,7 @@ def get_devs():
 def get_name(dev):
     dev = dev.replace("/dev/", "")
     with open(f"/sys/class/video4linux/{dev}/name") as name:
-        return name.read()
+        return name.read().strip()
 
 def set_property(dev, prop, value):
     subprocess.call(["v4l2-ctl", "-d", dev, "-c", prop+"="+str(value)])

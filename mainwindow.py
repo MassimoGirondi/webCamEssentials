@@ -4,10 +4,9 @@ from gi.repository import Gtk
 from webcamHandler import *
 
 class dialogWindow(Gtk.Dialog):
-    # TODO: make this a parameter!
-    dev = "/dev/video2"
 
-    def __init__(self):
+    def __init__(self, dev):
+        self.dev = dev
         Gtk.Dialog.__init__(self)
         self.set_default_size(400, 100)
 
