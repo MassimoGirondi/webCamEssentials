@@ -1,6 +1,7 @@
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+from gi.repository import Gdk
 from webcamHandler import *
 
 class dialogWindow(Gtk.Dialog):
@@ -8,6 +9,7 @@ class dialogWindow(Gtk.Dialog):
     def __init__(self, dev):
         self.dev = dev
         Gtk.Dialog.__init__(self)
+        self.connect("key-press-event",self.on_key)
         self.set_default_size(400, 100)
 
         self.exp_limits = get_limits(self.dev, "exposure_absolute")
@@ -86,3 +88,7 @@ class dialogWindow(Gtk.Dialog):
             #h-=self.advanced.height
             h-=60
             self.resize(w,h)
+
+    def on_key(self, u, e):
+        # Ignore ESC button
+        return e.keyval == Gdk.KEY_Escape
