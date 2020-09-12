@@ -5,7 +5,7 @@ from webcamHandler import *
 import sys
 
 # Set as your usual webcam device
-default_dev="/dev/video2"
+default_dev="/dev/video0"
 
 parser = argparse.ArgumentParser(description="Essential webcam control interfaces")
 parser.add_argument("-d", default=default_dev, help="Video Device to control", dest="device", action="store")
